@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WD Consulting | Strategic Procurement & Supply Chain Excellence</title>
+  <meta name="description" content="WD Consulting delivers expert procurement consulting, strategic sourcing, supplier management, contract negotiation, and cost optimization. Transform your supply chain." />
+  <meta name="keywords" content="procurement consulting, strategic sourcing, supplier management, contract negotiation, spend analysis, cost reduction, supply chain optimization, procurement transformation, category management, P2P, RFP management, supplier risk management" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="WD Consulting | Strategic Procurement Excellence" />
+  <meta property="og:description" content="Expert procurement consulting to optimize sourcing, reduce costs, and build resilient supply chains." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- Calendly widget -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0F1623; --slate: #2C3A52; --mid: #5A6A82;
+      --mist: #E8EDF4; --paper: #F5F7FB; --white: #FFFFFF;
+      --gold: #C8973A; --gold-light: #E8B96A;
+      --accent: #1A6EFA; --accent-light: #EEF4FF;
+      --success: #18A06A;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; }
+    h1, h2, h3, h4 { font-family: 'Syne', sans-serif; }
+
+    /* ── SCROLL PROGRESS ── */
+    .scroll-progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--gold); z-index: 300; width: 0; transition: width 0.1s linear; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 68px;
+      background: rgba(15,22,35,0.97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(200,151,58,0.15);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--white); letter-spacing: -0.01em; text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+
+    /* center links (desktop) */
+    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.68); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active-link { color: var(--gold-light); }
+
+    /* right cluster */
+    .nav-right { display: flex; align-items: center; gap: 0.75rem; }
+
+    /* search btn */
+    .nav-search-btn {
+      background: none; border: 1px solid rgba(255,255,255,0.18); border-radius: 8px;
+      color: rgba(255,255,255,0.7); width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; transition: all 0.2s;
+    }
+    .nav-search-btn:hover { border-color: var(--gold); color: var(--gold-light); }
+
+    /* book CTA in nav */
+    .nav-cta {
+      background: var(--gold); color: var(--ink) !important;
+      padding: 0.45rem 1.1rem; border-radius: 6px;
+      font-weight: 700; font-size: 0.82rem; text-decoration: none;
+      font-family: 'Syne', sans-serif;
+      transition: background 0.2s; white-space: nowrap;
+    }
+    .nav-cta:hover { background: var(--gold-light); }
+
+    /* hamburger */
+    .hamburger {
+      background: none; border: 1px solid rgba(255,255,255,0.18); border-radius: 8px;
+      color: rgba(255,255,255,0.8); width: 36px; height: 36px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+      cursor: pointer; padding: 0; transition: border-color 0.2s;
+    }
+    .hamburger:hover { border-color: var(--gold); }
+    .hamburger span { display: block; width: 16px; height: 1.5px; background: currentColor; transition: all 0.25s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── QUICK-NAV DRAWER (top-right) ── */
+    .drawer-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+      z-index: 190; opacity: 0; pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+    .drawer {
+      position: fixed; top: 68px; right: 0; bottom: 0;
+      width: 280px; background: var(--ink);
+      border-left: 1px solid rgba(200,151,58,0.15);
+      z-index: 195; transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .drawer.open { transform: translateX(0); }
+
+    .drawer-section { padding: 1.5rem 1.75rem 0; }
+    .drawer-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+    .drawer-nav { list-style: none; display: flex; flex-direction: column; gap: 0.1rem; margin-bottom: 1.5rem; }
+    .drawer-nav a {
+      display: flex; align-items: center; gap: 0.75rem;
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      padding: 0.6rem 0.75rem; border-radius: 8px;
+      transition: all 0.18s;
+    }
+    .drawer-nav a:hover { background: rgba(200,151,58,0.1); color: var(--gold-light); }
+    .drawer-nav a .d-icon { width: 28px; height: 28px; border-radius: 7px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+
+    .drawer-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 0 1.75rem 1.5rem; }
+
+    .drawer-book {
+      margin: 0 1.75rem 1.75rem;
+      background: var(--gold); color: var(--ink);
+      border: none; border-radius: 10px; padding: 0.85rem;
+      font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700;
+      cursor: pointer; width: calc(100% - 3.5rem);
+      transition: background 0.2s; text-align: center;
+    }
+    .drawer-book:hover { background: var(--gold-light); }
+
+    /* ── SEARCH OVERLAY ── */
+    .search-overlay {
+      position: fixed; inset: 0; z-index: 250;
+      background: rgba(15,22,35,0.97);
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 120px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .search-overlay.open { opacity: 1; pointer-events: all; }
+    .search-close {
+      position: absolute; top: 1.25rem; right: 1.5rem;
+      background: none; border: none; color: rgba(255,255,255,0.5);
+      font-size: 1.5rem; cursor: pointer; transition: color 0.2s;
+    }
+    .search-close:hover { color: var(--gold-light); }
+    .search-hint { font-size: 0.75rem; color: rgba(255,255,255,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .search-box {
+      display: flex; align-items: center; gap: 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(200,151,58,0.35);
+      border-radius: 14px; padding: 1rem 1.5rem;
+      width: 90%; max-width: 640px;
+    }
+    .search-box input {
+      flex: 1; background: none; border: none; outline: none;
+      font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 600;
+      color: var(--white);
+    }
+    .search-box input::placeholder { color: rgba(255,255,255,0.25); }
+    .search-icon-inner { color: rgba(255,255,255,0.35); font-size: 1.2rem; }
+    .search-results { width: 90%; max-width: 640px; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .search-result-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.85rem 1.25rem; border-radius: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer; text-decoration: none;
+      transition: background 0.15s;
+    }
+    .search-result-item:hover { background: rgba(200,151,58,0.1); border-color: rgba(200,151,58,0.2); }
+    .sri-icon { font-size: 1.1rem; width: 32px; text-align: center; flex-shrink: 0; }
+    .sri-text { color: var(--white); font-size: 0.9rem; font-weight: 500; }
+    .sri-cat { font-size: 0.72rem; color: rgba(255,255,255,0.35); margin-top: 0.1rem; }
+    .search-empty { color: rgba(255,255,255,0.3); font-size: 0.9rem; text-align: center; padding: 2rem 0; display: none; }
+
+    /* ── FLOATING CTA ── */
+    .float-cta {
+      position: fixed; bottom: 1.75rem; right: 1.75rem;
+      z-index: 180;
+      background: var(--gold); color: var(--ink);
+      border: none; border-radius: 50px;
+      padding: 0.8rem 1.5rem;
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 24px rgba(200,151,58,0.4);
+      display: flex; align-items: center; gap: 0.5rem;
+      transition: all 0.2s;
+      animation: floatPulse 3s ease-in-out infinite;
+    }
+    .float-cta:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(200,151,58,0.5); animation: none; }
+    @keyframes floatPulse { 0%,100% { box-shadow: 0 4px 24px rgba(200,151,58,0.4); } 50% { box-shadow: 0 4px 36px rgba(200,151,58,0.65); } }
+
+    /* ── NUDGE BAR ── */
+    .nudge-bar {
+      position: fixed; top: 68px; left: 0; right: 0; z-index: 195;
+      background: linear-gradient(90deg, #1A4A8A 0%, #0F1623 100%);
+      border-bottom: 1px solid rgba(200,151,58,0.25);
+      display: flex; align-items: center; justify-content: center;
+      gap: 1.25rem; padding: 0.55rem 5%;
+      font-size: 0.85rem; color: rgba(255,255,255,0.88);
+    }
+    .nudge-bar strong { color: var(--gold-light); }
+    .nudge-btn {
+      background: var(--gold); color: var(--ink);
+      border: none; border-radius: 6px;
+      padding: 0.35rem 1rem; font-family: 'Syne', sans-serif;
+      font-size: 0.8rem; font-weight: 700; cursor: pointer;
+      white-space: nowrap; transition: background 0.2s; flex-shrink: 0;
+    }
+    .nudge-btn:hover { background: var(--gold-light); }
+    .nudge-close {
+      background: none; border: none; color: rgba(255,255,255,0.35);
+      font-size: 0.85rem; cursor: pointer; padding: 0.25rem;
+      transition: color 0.2s; margin-left: auto; flex-shrink: 0;
+    }
+    .nudge-close:hover { color: rgba(255,255,255,0.7); }
+    @media (max-width: 600px) {
+      .nudge-text { font-size: 0.78rem; }
+      .nudge-bar { gap: 0.75rem; }
+    }
+
+    /* ── HERO ── */
+    .hero { min-height: 100vh; background: var(--ink); display: flex; align-items: center; padding: 150px 5% 80px; position: relative; overflow: hidden; }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(200,151,58,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(200,151,58,0.06) 1px, transparent 1px); background-size: 80px 80px; }
+    .hero-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(26,110,250,0.18) 0%, transparent 70%); top: -100px; right: -100px; pointer-events: none; }
+    .hero-content { position: relative; z-index: 2; max-width: 800px; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(200,151,58,0.12); border: 1px solid rgba(200,151,58,0.3); color: var(--gold-light); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .hero h1 { font-size: clamp(2.6rem, 5.5vw, 4.5rem); font-weight: 800; line-height: 1.05; color: var(--white); letter-spacing: -0.02em; margin-bottom: 1.25rem; }
+    .hero h1 em { font-style: normal; color: var(--gold); }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,0.6); max-width: 540px; line-height: 1.75; margin-bottom: 2rem; font-weight: 300; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--gold); color: var(--ink); padding: 0.85rem 1.75rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem; text-decoration: none; font-family: 'Syne', sans-serif; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; border: none; cursor: pointer; }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-ghost { border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.78); padding: 0.85rem 1.75rem; border-radius: 8px; font-weight: 500; font-size: 0.95rem; text-decoration: none; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); }
+    .hero-stats { display: flex; gap: 3rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; }
+    .stat-val { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--gold); }
+    .stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ── SECTIONS ── */
+    section { padding: 80px 5%; }
+    .section-tag { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+    .section-title { font-size: clamp(1.7rem, 2.8vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; color: var(--ink); }
+    .section-sub { color: var(--mid); font-size: 0.95rem; max-width: 500px; margin-top: 0.6rem; line-height: 1.7; }
+
+    /* ── SERVICES — ultra-compact grid ── */
+    #services { background: var(--paper); }
+    .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--mist);
+      border: 1px solid var(--mist); border-radius: 14px; overflow: hidden;
+    }
+    .service-card {
+      background: var(--white); padding: 1.1rem 1.3rem;
+      display: flex; align-items: center; gap: 0.85rem;
+      transition: background 0.18s; cursor: default; position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover { background: var(--accent-light); }
+    .service-card:hover .service-hover-tip { opacity: 1; transform: translateY(0); }
+    .service-icon { font-size: 1.25rem; flex-shrink: 0; }
+    .service-card-body h3 { font-size: 0.875rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+    .service-card-body p { display: none; }
+    /* Hover tooltip */
+    .service-hover-tip {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: var(--accent); color: var(--white);
+      font-size: 0.72rem; font-weight: 500; padding: 0.35rem 0.9rem;
+      opacity: 0; transform: translateY(4px);
+      transition: all 0.18s; pointer-events: none;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* ── WHY ── */
+    #why { background: var(--ink); }
+    .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .why-left .section-title { color: var(--white); }
+    .why-left .section-sub { color: rgba(255,255,255,0.5); }
+    .why-pillars { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2rem; }
+    .pillar { display: flex; gap: 1rem; align-items: flex-start; }
+    .pillar-num { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--gold); background: rgba(200,151,58,0.12); border: 1px solid rgba(200,151,58,0.2); width: 32px; height: 32px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .pillar h4 { font-size: 0.92rem; font-weight: 600; color: var(--white); margin-bottom: 0.15rem; }
+    .pillar p { font-size: 0.82rem; color: rgba(255,255,255,0.45); line-height: 1.55; }
+    .why-right { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .metric-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.5rem; }
+    .metric-box.accent { background: rgba(200,151,58,0.1); border-color: rgba(200,151,58,0.2); }
+    .metric-num { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; color: var(--gold); line-height: 1; margin-bottom: 0.35rem; }
+    .metric-label { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.4; }
+
+    /* ── KNOWLEDGE ── */
+    #knowledge { background: var(--white); }
+    .knowledge-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .tab-btn { padding: 0.45rem 1rem; border-radius: 100px; font-size: 0.82rem; font-weight: 600; border: 1.5px solid var(--mist); background: var(--white); color: var(--mid); cursor: pointer; transition: all 0.18s; font-family: 'Inter', sans-serif; }
+    .tab-btn.active, .tab-btn:hover { background: var(--ink); border-color: var(--ink); color: var(--white); }
+    .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 1.25rem; }
+    .tip-card { border: 1.5px solid var(--mist); border-radius: 12px; padding: 1.5rem; transition: all 0.2s; cursor: pointer; }
+    .tip-card:hover { border-color: var(--gold); box-shadow: 0 6px 24px rgba(200,151,58,0.09); transform: translateY(-2px); }
+    .tip-badge { display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.65rem; border-radius: 100px; margin-bottom: 0.75rem; }
+    .tip-badge.beginner { background: #E6F4EA; color: #1A7A45; }
+    .tip-badge.intermediate { background: #FFF3E0; color: #B56A00; }
+    .tip-badge.advanced { background: #EEF4FF; color: #1A6EFA; }
+    .tip-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.45rem; color: var(--ink); line-height: 1.3; }
+    .tip-card p { font-size: 0.82rem; color: var(--mid); line-height: 1.6; }
+    .tip-read-more { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.9rem; font-size: 0.78rem; font-weight: 600; color: var(--gold); }
+    .tip-expanded { display: none; background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin-top: 0.85rem; font-size: 0.82rem; color: var(--slate); line-height: 1.65; }
+    .tip-card.open .tip-expanded { display: block; }
+    .tip-card.open { border-color: var(--accent); }
+
+    /* ── PROCESS ── */
+    #process { background: var(--paper); }
+    .process-steps { display: flex; margin-top: 2.5rem; position: relative; }
+    .process-steps::before { content: ''; position: absolute; top: 24px; left: 24px; right: 24px; height: 1px; background: var(--mist); z-index: 0; }
+    .process-step { flex: 1; text-align: center; position: relative; z-index: 1; padding: 0 0.5rem; }
+    .step-dot { width: 48px; height: 48px; border-radius: 50%; background: var(--white); border: 2px solid var(--mist); margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.9rem; color: var(--mid); transition: all 0.2s; }
+    .process-step:hover .step-dot { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+    .step-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; margin-bottom: 0.3rem; color: var(--ink); }
+    .step-desc { font-size: 0.75rem; color: var(--mid); line-height: 1.45; }
+
+    /* ── CTA BAND ── */
+    .cta-band { background: linear-gradient(135deg, var(--ink) 0%, var(--slate) 100%); padding: 70px 5%; text-align: center; position: relative; overflow: hidden; }
+    .cta-band::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 60px, rgba(200,151,58,0.03) 60px, rgba(200,151,58,0.03) 61px); }
+    .cta-band h2 { font-size: clamp(1.7rem, 2.8vw, 2.4rem); font-weight: 800; color: var(--white); letter-spacing: -0.02em; margin-bottom: 0.75rem; position: relative; }
+    .cta-band p { color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 1.75rem; position: relative; }
+    .cta-band .btn-primary { position: relative; font-size: 0.95rem; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--white); }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+    .testi-card { border: 1.5px solid var(--mist); border-radius: 12px; padding: 1.5rem; }
+    .testi-stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 0.75rem; }
+    .testi-text { font-size: 0.85rem; color: var(--slate); line-height: 1.65; font-style: italic; margin-bottom: 1rem; }
+    .testi-author { font-weight: 600; font-size: 0.82rem; color: var(--ink); }
+    .testi-role { font-size: 0.75rem; color: var(--mid); }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--paper); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: start; }
+    .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+    .contact-item { display: flex; gap: 0.9rem; align-items: flex-start; }
+    .contact-icon { width: 36px; height: 36px; background: var(--ink); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .contact-item h4 { font-size: 0.82rem; font-weight: 600; margin-bottom: 0.15rem; }
+    .contact-item p { font-size: 0.82rem; color: var(--mid); }
+
+    /* Calendly embed area */
+    .calendly-wrap { background: var(--white); border: 1.5px solid var(--mist); border-radius: 14px; overflow: hidden; }
+    .calendly-tabs { display: flex; border-bottom: 1px solid var(--mist); }
+    .ctab { flex: 1; padding: 0.85rem; background: none; border: none; font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--mid); cursor: pointer; transition: all 0.2s; border-bottom: 2px solid transparent; }
+    .ctab.active { color: var(--ink); border-bottom-color: var(--gold); }
+    .ctab:hover:not(.active) { color: var(--ink); }
+    .ctab-panel { display: none; }
+    .ctab-panel.active { display: block; }
+
+    /* quick contact form */
+    .contact-form { display: flex; flex-direction: column; gap: 0.9rem; padding: 1.5rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-group label { font-size: 0.75rem; font-weight: 600; color: var(--ink); }
+    .form-group input, .form-group select, .form-group textarea { border: 1.5px solid var(--mist); border-radius: 8px; padding: 0.65rem 0.9rem; font-family: 'Inter', sans-serif; font-size: 0.875rem; color: var(--ink); background: var(--paper); outline: none; transition: border 0.2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); background: var(--white); }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-submit { background: var(--ink); color: var(--white); border: none; border-radius: 8px; padding: 0.85rem 2rem; font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .form-submit:hover { background: var(--gold); color: var(--ink); }
+
+    /* ── CALENDLY INLINE ── */
+    .calendly-inline-widget { min-height: 620px; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--ink); padding: 50px 5% 28px; color: rgba(255,255,255,0.45); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+    .footer-brand .nav-logo { font-size: 1.3rem; display: block; margin-bottom: 0.6rem; }
+    .footer-brand p { font-size: 0.82rem; line-height: 1.7; }
+    .footer-col h5 { font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--white); margin-bottom: 0.9rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .footer-col ul a { color: rgba(255,255,255,0.42); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--gold-light); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.25rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; font-size: 0.75rem; }
+    .footer-bottom a { color: rgba(255,255,255,0.3); text-decoration: none; }
+
+    /* ── ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .nav-links a.active-link { color: var(--gold-light); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .why-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .why-right { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .process-steps { flex-direction: column; gap: 1.5rem; }
+      .process-steps::before { display: none; }
+    }
+    @media (max-width: 600px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .why-right { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.25rem; }
+      .float-cta .float-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">WD<span>.</span>Consulting</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#knowledge">Knowledge</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-search-btn" onclick="openSearch()" title="Search">🔍</button>
+    <a href="#contact" class="nav-cta" onclick="switchToForm()">📅 Book a Call</a>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleDrawer()" title="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── QUICK-NAV DRAWER ── -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-section">
+    <div class="drawer-label">Navigate</div>
+    <ul class="drawer-nav">
+      <li><a href="#services" onclick="closeDrawer()"><span class="d-icon">🎯</span>Services</a></li>
+      <li><a href="#why" onclick="closeDrawer()"><span class="d-icon">⭐</span>Why WD Consulting</a></li>
+      <li><a href="#knowledge" onclick="closeDrawer()"><span class="d-icon">📚</span>Knowledge Center</a></li>
+      <li><a href="#process" onclick="closeDrawer()"><span class="d-icon">🔄</span>Our Process</a></li>
+      <li><a href="#testimonials" onclick="closeDrawer()"><span class="d-icon">💬</span>Client Stories</a></li>
+      <li><a href="#contact" onclick="closeDrawer()"><span class="d-icon">✉️</span>Contact Us</a></li>
+    </ul>
+  </div>
+  <div class="drawer-divider"></div>
+  <div class="drawer-section">
+    <div class="drawer-label">Top Services</div>
+    <ul class="drawer-nav">
+      <li><a href="#services" onclick="closeDrawer()"><span class="d-icon">📊</span>Strategic Sourcing</a></li>
+      <li><a href="#services" onclick="closeDrawer()"><span class="d-icon">🤝</span>Supplier Management</a></li>
+      <li><a href="#services" onclick="closeDrawer()"><span class="d-icon">📋</span>Contract Negotiation</a></li>
+      <li><a href="#services" onclick="closeDrawer()"><span class="d-icon">💰</span>Cost Reduction</a></li>
+    </ul>
+  </div>
+  <div class="drawer-divider"></div>
+  <button class="drawer-book" onclick="openCalendly(); closeDrawer()">📅 Book a Free Consultation</button>
+</div>
+
+<!-- ── SEARCH OVERLAY ── -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="search-close" onclick="closeSearch()">✕</button>
+  <div class="search-hint">Search WD Consulting</div>
+  <div class="search-box">
+    <span class="search-icon-inner">🔍</span>
+    <input type="text" id="searchInput" placeholder="e.g. supplier risk, RFP, cost savings…" oninput="runSearch(this.value)" />
+  </div>
+  <div class="search-results" id="searchResults"></div>
+  <div class="search-empty" id="searchEmpty">No results found. Try a different keyword.</div>
+</div>
+
+<!-- ── NUDGE BAR ── -->
+<div class="nudge-bar" id="nudgeBar">
+  <span class="nudge-text">🎯 <strong>Free 30-min procurement health check</strong> — no commitment, just clarity.</span>
+  <button class="nudge-btn" onclick="openCalendly()">Book Now →</button>
+  <button class="nudge-close" onclick="document.getElementById('nudgeBar').style.display='none'" title="Dismiss">✕</button>
+</div>
+
+<!-- ── FLOATING CTA ── -->
+<button class="float-cta" onclick="openCalendly()">
+  📅 <span class="float-label">Book Free Call</span>
+</button>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">⬡ Strategic Procurement Consulting</div>
+    <h1>Turn Your Procurement Into a<br/><em>Competitive Advantage</em></h1>
+    <p class="hero-sub">WD Consulting helps organizations reduce costs, build resilient supply chains, and transform procurement — from strategic sourcing to digital P2P.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="openCalendly()">📅 Book a Free Assessment</button>
+      <a href="#knowledge" class="btn-ghost">▶ Knowledge Center</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-val">30%</div><div class="stat-label">Avg Cost Reduction</div></div>
+      <div><div class="stat-val">150+</div><div class="stat-label">Mandates Delivered</div></div>
+      <div><div class="stat-val">18</div><div class="stat-label">Industries Served</div></div>
+      <div><div class="stat-val">98%</div><div class="stat-label">Client Satisfaction</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services">
+  <div class="services-header reveal">
+    <div>
+      <div class="section-tag">Core Services</div>
+      <h2 class="section-title">What We Do</h2>
+      <p class="section-sub">End-to-end procurement expertise across every stage of your sourcing lifecycle.</p>
+    </div>
+    <button class="btn-primary" onclick="openCalendly()">Talk to an Expert →</button>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-icon">🎯</div>
+      <div class="service-card-body"><h3>Strategic Sourcing</h3></div>
+      <div class="service-hover-tip">RFx management · market analysis · bid evaluation</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <div class="service-card-body"><h3>Spend Analysis & Category Mgmt</h3></div>
+      <div class="service-hover-tip">Spend cube · category strategy · savings tracking</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🤝</div>
+      <div class="service-card-body"><h3>Supplier Management</h3></div>
+      <div class="service-hover-tip">SRM scorecards · performance KPIs · risk mitigation</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <div class="service-card-body"><h3>Contract Negotiation & CLM</h3></div>
+      <div class="service-hover-tip">Expert negotiation · templates · lifecycle management</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔄</div>
+      <div class="service-card-body"><h3>P2P Optimization</h3></div>
+      <div class="service-hover-tip">Procure-to-pay · automation · ERP integration</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌍</div>
+      <div class="service-card-body"><h3>Supply Chain Resilience</h3></div>
+      <div class="service-hover-tip">Risk assessment · dual sourcing · business continuity</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚡</div>
+      <div class="service-card-body"><h3>Procurement Digitalization</h3></div>
+      <div class="service-hover-tip">eProcurement · AI analytics · change management</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏗️</div>
+      <div class="service-card-body"><h3>Operating Model Design</h3></div>
+      <div class="service-hover-tip">Org design · governance · KPI dashboards</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📈</div>
+      <div class="service-card-body"><h3>Cost Reduction Programs</h3></div>
+      <div class="service-hover-tip">Quick wins · TCO analysis · value engineering</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY ── -->
+<section id="why">
+  <div class="why-grid">
+    <div class="why-left reveal">
+      <div class="section-tag">Why WD Consulting</div>
+      <h2 class="section-title">Practitioners,<br/>Not Just Advisors</h2>
+      <p class="section-sub">We've worked inside procurement teams across global corporations. Every recommendation has been tested in the real world.</p>
+      <div class="why-pillars">
+        <div class="pillar"><div class="pillar-num">A</div><div><h4>Industry-Specific Expertise</h4><p>Deep knowledge across manufacturing, retail, pharma, tech & public sector.</p></div></div>
+        <div class="pillar"><div class="pillar-num">B</div><div><h4>Data-Driven Recommendations</h4><p>Every strategy grounded in spend data, benchmarking & market intelligence.</p></div></div>
+        <div class="pillar"><div class="pillar-num">C</div><div><h4>Measurable ROI Focus</h4><p>Success metrics defined upfront. Savings realized, not just identified.</p></div></div>
+        <div class="pillar"><div class="pillar-num">D</div><div><h4>Knowledge Transfer Built In</h4><p>We build your team's capability to sustain results independently.</p></div></div>
+      </div>
+    </div>
+    <div class="why-right reveal">
+      <div class="metric-box accent"><div class="metric-num">$2.4B+</div><div class="metric-label">Total client savings achieved</div></div>
+      <div class="metric-box"><div class="metric-num">6–8 wks</div><div class="metric-label">Time to first measurable savings</div></div>
+      <div class="metric-box"><div class="metric-num">42%</div><div class="metric-label">Avg P2P cycle time reduction</div></div>
+      <div class="metric-box accent"><div class="metric-num">3.2×</div><div class="metric-label">Average ROI within 12 months</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── KNOWLEDGE CENTER ── -->
+<section id="knowledge">
+  <div class="knowledge-header reveal">
+    <div>
+      <div class="section-tag">Knowledge Center</div>
+      <h2 class="section-title">Procurement Tips & Insights</h2>
+      <p class="section-sub">Practical guidance from the field — no jargon, just tactics that work.</p>
+    </div>
+    <a href="#contact" style="color:var(--gold); font-weight:600; font-size:0.85rem; text-decoration:none;">Get personalized advice →</a>
+  </div>
+  <div class="tabs reveal">
+    <button class="tab-btn active" onclick="filterTips('all',this)">All Topics</button>
+    <button class="tab-btn" onclick="filterTips('sourcing',this)">Sourcing</button>
+    <button class="tab-btn" onclick="filterTips('suppliers',this)">Suppliers</button>
+    <button class="tab-btn" onclick="filterTips('contracts',this)">Contracts</button>
+    <button class="tab-btn" onclick="filterTips('savings',this)">Cost Savings</button>
+    <button class="tab-btn" onclick="filterTips('digital',this)">Digital</button>
+  </div>
+  <div class="tips-grid reveal" id="tipsGrid">
+    <div class="tip-card" data-category="sourcing" onclick="toggleTip(this)">
+      <span class="tip-badge beginner">Beginner</span>
+      <h4>The 5-Step RFP That Gets Competitive Bids</h4>
+      <p>Most RFPs get poor supplier response because they're too vague. Here's the structure that works.</p>
+      <div class="tip-expanded"><strong>1 — Scope clarity:</strong> Define exactly what you need in plain language.<br/><br/><strong>2 — Evaluation criteria upfront:</strong> Tell suppliers how you'll score them. They'll tailor bids accordingly.<br/><br/><strong>3 — Fair timeline:</strong> Allow 3–4 weeks. Rushed RFPs attract fewer, weaker bids.<br/><br/><strong>4 — Q&A window:</strong> Share all supplier questions with everyone. Reduces clarifications by 60%.<br/><br/><strong>5 — Clear award process:</strong> Explain what happens after submission.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+    <div class="tip-card" data-category="savings" onclick="toggleTip(this)">
+      <span class="tip-badge beginner">Beginner</span>
+      <h4>Quick-Win Savings You Can Find in 30 Days</h4>
+      <p>Four levers that routinely unlock 5–15% savings before any formal sourcing program.</p>
+      <div class="tip-expanded"><strong>1. Consolidate suppliers:</strong> Consolidating from 6 to 2–3 per category typically delivers 8–12% improvement.<br/><br/><strong>2. Auto-renewing contracts:</strong> A renegotiation email at renewal can save 5–10% in days.<br/><br/><strong>3. Payment terms:</strong> Net 30 → Net 60–90 improves working capital with zero price impact.<br/><br/><strong>4. Maverick spend:</strong> Typically 10–20% of spend is off-contract. Route it back.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+    <div class="tip-card" data-category="suppliers" onclick="toggleTip(this)">
+      <span class="tip-badge intermediate">Intermediate</span>
+      <h4>Running a Supplier Review Suppliers Respect</h4>
+      <p>A good review drives improvement. A bad one damages the relationship. The framework that works.</p>
+      <div class="tip-expanded"><strong>Share scorecard first:</strong> Send metrics 1 week before — no surprises.<br/><br/><strong>Lead with what's working:</strong> Genuine recognition before challenges prevents defensiveness.<br/><br/><strong>Agree on 2–3 actions:</strong> Focus on the highest-impact items with clear owners and dates.<br/><br/><strong>End with your pipeline:</strong> Suppliers who see upside invest more in the relationship.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+    <div class="tip-card" data-category="contracts" onclick="toggleTip(this)">
+      <span class="tip-badge intermediate">Intermediate</span>
+      <h4>7 Contract Clauses Buyers Most Often Miss</h4>
+      <p>Terms rarely in supplier templates but critical for protecting value and managing risk.</p>
+      <div class="tip-expanded"><strong>1. Most Favored Customer (MFC):</strong> Guarantees you the best price offered to anyone.<br/><br/><strong>2. Price index formula:</strong> Link changes to CPI, not discretionary increases.<br/><br/><strong>3. Step-in rights:</strong> Your right to switch if performance drops.<br/><br/><strong>4. Audit rights:</strong> Essential for cost-plus contracts.<br/><br/><strong>5. IP ownership:</strong> Custom items belong to you.<br/><br/><strong>6. Change of control:</strong> Protects you on acquisition.<br/><br/><strong>7. Termination for convenience:</strong> Exit with reasonable notice, no cause needed.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+    <div class="tip-card" data-category="digital" onclick="toggleTip(this)">
+      <span class="tip-badge intermediate">Intermediate</span>
+      <h4>Choosing Procurement Software: Avoid the Traps</h4>
+      <p>Most tech failures aren't about the software — they're about the selection process.</p>
+      <div class="tip-expanded"><strong>Don't demo first:</strong> Define requirements before seeing demos. Demos anchor you to what vendors show.<br/><br/><strong>Evaluate data migration:</strong> Ask: "How do we get data in and out?" Poor portability = lock-in.<br/><br/><strong>Check ERP integration:</strong> Native connectors only. Custom APIs kill 40% of implementations.<br/><br/><strong>Run a pilot:</strong> 4–6 weeks with real spend data before signing.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+    <div class="tip-card" data-category="sourcing" onclick="toggleTip(this)">
+      <span class="tip-badge advanced">Advanced</span>
+      <h4>Category Strategy: The One-Page Framework</h4>
+      <p>A category strategy doesn't need 40 slides. Here's the structure that actually drives decisions.</p>
+      <div class="tip-expanded"><strong>Snapshot:</strong> Total spend, supplier count, YoY trend, top 5 purchases.<br/><br/><strong>Market:</strong> Competitive vs consolidated? Price trend? Substitutes?<br/><br/><strong>Kraljic matrix:</strong> Strategic / leverage / bottleneck / routine — drives the right approach.<br/><br/><strong>Levers:</strong> Consolidation, long-term agreements, demand management, dual sourcing.<br/><br/><strong>Action plan:</strong> 3 initiatives, owner, timeline, expected savings.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+    <div class="tip-card" data-category="savings" onclick="toggleTip(this)">
+      <span class="tip-badge advanced">Advanced</span>
+      <h4>Savings Finance Will Actually Approve</h4>
+      <p>Use this methodology to build credibility with finance and ensure savings get recognized.</p>
+      <div class="tip-expanded"><strong>Price savings:</strong> (Last price – New price) × Actual volume. Not forecasts.<br/><br/><strong>Cost avoidance:</strong> (Proposed increase × Volume). Keep the original quote as evidence.<br/><br/><strong>Align with finance early:</strong> Agree on methodology before the project, not year-end.<br/><br/><strong>Separate hard/soft:</strong> Hard savings hit P&L. Avoidance goes in a separate bucket.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+    <div class="tip-card" data-category="suppliers" onclick="toggleTip(this)">
+      <span class="tip-badge beginner">Beginner</span>
+      <h4>Supplier Onboarding: What to Capture First</h4>
+      <p>The right data upfront prevents compliance headaches and payment delays later.</p>
+      <div class="tip-expanded"><strong>Legal:</strong> Entity name, registration, VAT/tax ID, authorized signatory.<br/><br/><strong>Financial:</strong> Bank details, credit references, latest financials for strategic suppliers.<br/><br/><strong>Compliance:</strong> Insurance, anti-bribery policy, data protection, modern slavery statement.<br/><br/><strong>ESG:</strong> Environmental certifications, diversity status, carbon footprint — increasingly required.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+    <div class="tip-card" data-category="digital" onclick="toggleTip(this)">
+      <span class="tip-badge advanced">Advanced</span>
+      <h4>AI in Procurement: What Actually Works Today</h4>
+      <p>Separating hype from real results. Where AI is delivering measurable value right now.</p>
+      <div class="tip-expanded"><strong>Spend classification:</strong> 90%+ accuracy vs 60–70% manual. Faster cube, better insights.<br/><br/><strong>Contract analytics:</strong> Extract terms, flag risks, find renewals across thousands of contracts in hours.<br/><br/><strong>Demand forecasting:</strong> ML reduces error 20–35%, directly impacting procurement volumes.<br/><br/><strong>Supplier risk:</strong> Continuous news and financial monitoring for early warning signals.<br/><br/><strong>Not yet:</strong> Autonomous sourcing, unassisted negotiation. Human judgment still essential.</div>
+      <span class="tip-read-more">Read more ↓</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROCESS ── -->
+<section id="process">
+  <div class="reveal" style="text-align:center; max-width:560px; margin:0 auto 1rem;">
+    <div class="section-tag">Our Approach</div>
+    <h2 class="section-title">How We Deliver Results</h2>
+    <p class="section-sub" style="margin:0.6rem auto 0;">Clear, collaborative, and designed to leave your team stronger than before.</p>
+  </div>
+  <div class="process-steps reveal">
+    <div class="process-step"><div class="step-dot">01</div><div class="step-title">Discovery</div><div class="step-desc">Spend analysis & baseline</div></div>
+    <div class="process-step"><div class="step-dot">02</div><div class="step-title">Strategy</div><div class="step-desc">Roadmap & opportunity sizing</div></div>
+    <div class="process-step"><div class="step-dot">03</div><div class="step-title">Execution</div><div class="step-desc">Sourcing, negotiations, award</div></div>
+    <div class="process-step"><div class="step-dot">04</div><div class="step-title">Implement</div><div class="step-desc">P2P, training, embedding</div></div>
+    <div class="process-step"><div class="step-dot">05</div><div class="step-title">Measure</div><div class="step-desc">KPIs, savings tracking, CI</div></div>
+  </div>
+</section>
+
+<!-- ── CTA BAND ── -->
+<div class="cta-band">
+  <h2>Ready to Unlock Hidden Value in Your Procurement?</h2>
+  <p>Complimentary 30-minute health check with one of our senior consultants.</p>
+  <button class="btn-primary" onclick="openCalendly()" style="font-size:0.95rem;">📅 Book Your Free Assessment →</button>
+</div>
+
+<!-- ── TESTIMONIALS ── -->
+<section id="testimonials">
+  <div class="reveal" style="text-align:center; max-width:520px; margin:0 auto;">
+    <div class="section-tag">Client Stories</div>
+    <h2 class="section-title">Trusted by Procurement Leaders</h2>
+  </div>
+  <div class="testi-grid reveal">
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"WD redesigned our strategic sourcing process. Within 8 months we'd realized $4.2M in verified savings and our team runs category strategies independently."</p><div class="testi-author">Sarah M.</div><div class="testi-role">CPO, Global Retail Group</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Their supplier risk framework gave us visibility we'd never had. We had 6 weeks warning on a key supplier's difficulties — enough to dual-source without disruption."</p><div class="testi-author">James T.</div><div class="testi-role">Head of Supply Chain, Pharma Manufacturer</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"The P2P project cut our invoice processing from 12 days to 3. ROI on the engagement was evident in the first quarter."</p><div class="testi-author">Nadia L.</div><div class="testi-role">Finance Director, Technology Scale-up</div></div>
+    <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"WD stayed until the work was embedded. Our team now runs RFPs, negotiates contracts, and manages supplier scorecards without external support."</p><div class="testi-author">Marcus R.</div><div class="testi-role">VP Operations, Industrial Equipment</div></div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <div class="section-tag">Let's Talk</div>
+      <h2 class="section-title">Start With a Free Health Check</h2>
+      <p class="section-sub">No commitment. Just a clear picture of your biggest procurement opportunities.</p>
+      <div class="contact-info" style="margin-top:2rem;">
+        <div class="contact-item"><div class="contact-icon">📧</div><div><h4>Email</h4><p>hello@wdconsulting.com</p></div></div>
+        <div class="contact-item"><div class="contact-icon">📞</div><div><h4>Phone</h4><p>+1 (555) 200-4800</p></div></div>
+        <div class="contact-item"><div class="contact-icon">🌍</div><div><h4>Global Coverage</h4><p>North America · Europe · Middle East · APAC</p></div></div>
+        <div class="contact-item"><div class="contact-icon">⏱️</div><div><h4>Response Time</h4><p>Within 24 hours guaranteed</p></div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="calendly-wrap">
+        <div class="calendly-tabs">
+          <button class="ctab active" id="tabCalendly" onclick="switchTab('calendly')">📅 Book a Meeting</button>
+          <button class="ctab" id="tabForm" onclick="switchTab('form')">✉️ Send a Message</button>
+        </div>
+        <!-- Calendly inline panel -->
+        <div class="ctab-panel active" id="panelCalendly">
+          <div class="calendly-inline-widget"
+            data-url="https://calendly.com/wdconsulting/consultation?hide_gdpr_banner=1&primary_color=c8973a"
+            style="min-width:280px; height:620px;">
+          </div>
+        </div>
+        <!-- Contact form panel -->
+        <div class="ctab-panel" id="panelForm">
+          <div class="contact-form">
+            <div class="form-row">
+              <div class="form-group"><label>First Name</label><input type="text" placeholder="Alex" /></div>
+              <div class="form-group"><label>Last Name</label><input type="text" placeholder="Johnson" /></div>
+            </div>
+            <div class="form-group"><label>Work Email</label><input type="email" placeholder="alex@company.com" /></div>
+            <div class="form-group"><label>Company</label><input type="text" placeholder="Your Company Name" /></div>
+            <div class="form-group"><label>Service Area</label>
+              <select>
+                <option value="">Select…</option>
+                <option>Strategic Sourcing</option><option>Spend Analysis & Category Management</option>
+                <option>Supplier Management</option><option>Contract Negotiation</option>
+                <option>P2P Optimization</option><option>Supply Chain Resilience</option>
+                <option>Procurement Digitalization</option><option>Cost Reduction Program</option>
+                <option>Operating Model Design</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Your Challenge</label><textarea placeholder="What procurement problem are you trying to solve?"></textarea></div>
+            <button class="form-submit" onclick="handleSubmit()">Send Message →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="nav-logo">WD<span>.</span>Consulting</span>
+      <p>Strategic procurement consulting that delivers measurable results. Helping organizations build world-class procurement since 2008.</p>
+    </div>
+    <div class="footer-col"><h5>Services</h5><ul><li><a href="#services">Strategic Sourcing</a></li><li><a href="#services">Category Management</a></li><li><a href="#services">Supplier Management</a></li><li><a href="#services">Contract Negotiation</a></li><li><a href="#services">P2P Optimization</a></li><li><a href="#services">Digitalization</a></li></ul></div>
+    <div class="footer-col"><h5>Knowledge</h5><ul><li><a href="#knowledge">Sourcing Tips</a></li><li><a href="#knowledge">Supplier Guides</a></li><li><a href="#knowledge">Contract Insights</a></li><li><a href="#knowledge">Savings Tactics</a></li><li><a href="#knowledge">Digital Procurement</a></li></ul></div>
+    <div class="footer-col"><h5>Company</h5><ul><li><a href="#">About WD Consulting</a></li><li><a href="#testimonials">Client Stories</a></li><li><a href="#process">Our Process</a></li><li><a href="#contact">Contact Us</a></li><li><a href="#">Careers</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 WD Consulting. All rights reserved.</p>
+    <div style="display:flex; gap:1.25rem;"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+  </div>
+</footer>
+
+<!-- Calendly script -->
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('scrollProgress').style.width = p + '%';
+});
+
+// ── REVEAL ──
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), 80); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ── ACTIVE NAV ──
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  navLinks.forEach(a => { a.classList.toggle('active-link', a.getAttribute('href') === '#' + cur); });
+});
+
+// ── DRAWER ──
+function toggleDrawer() {
+  const d = document.getElementById('drawer');
+  const o = document.getElementById('drawerOverlay');
+  const h = document.getElementById('hamburgerBtn');
+  const open = d.classList.toggle('open');
+  o.classList.toggle('open', open);
+  h.classList.toggle('open', open);
+}
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('hamburgerBtn').classList.remove('open');
+}
+
+// ── SEARCH ──
+const searchIndex = [
+  { icon:'🎯', text:'Strategic Sourcing', cat:'Service', href:'#services' },
+  { icon:'📊', text:'Spend Analysis & Category Management', cat:'Service', href:'#services' },
+  { icon:'🤝', text:'Supplier Management & SRM', cat:'Service', href:'#services' },
+  { icon:'📋', text:'Contract Negotiation & CLM', cat:'Service', href:'#services' },
+  { icon:'🔄', text:'P2P / Purchase-to-Pay Optimization', cat:'Service', href:'#services' },
+  { icon:'🌍', text:'Supply Chain Resilience', cat:'Service', href:'#services' },
+  { icon:'⚡', text:'Procurement Digitalization & eProcurement', cat:'Service', href:'#services' },
+  { icon:'📈', text:'Cost Reduction Programs', cat:'Service', href:'#services' },
+  { icon:'🏗️', text:'Procurement Operating Model Design', cat:'Service', href:'#services' },
+  { icon:'📚', text:'RFP Tips & Sourcing Best Practices', cat:'Knowledge', href:'#knowledge' },
+  { icon:'📚', text:'Quick-Win Cost Savings in 30 Days', cat:'Knowledge', href:'#knowledge' },
+  { icon:'📚', text:'Supplier Review Framework', cat:'Knowledge', href:'#knowledge' },
+  { icon:'📚', text:'Contract Clauses Buyers Miss', cat:'Knowledge', href:'#knowledge' },
+  { icon:'📚', text:'Choosing Procurement Software', cat:'Knowledge', href:'#knowledge' },
+  { icon:'📚', text:'Category Strategy Framework', cat:'Knowledge', href:'#knowledge' },
+  { icon:'📚', text:'AI in Procurement', cat:'Knowledge', href:'#knowledge' },
+  { icon:'📚', text:'How to Calculate Savings for Finance', cat:'Knowledge', href:'#knowledge' },
+  { icon:'💬', text:'Client Success Stories', cat:'Clients', href:'#testimonials' },
+  { icon:'🔄', text:'Our 5-Step Delivery Process', cat:'Process', href:'#process' },
+  { icon:'✉️', text:'Book a Free Consultation', cat:'Contact', href:'#contact' },
+  { icon:'⭐', text:'Why WD Consulting', cat:'About', href:'#why' },
+];
+
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('searchInput').focus(), 100);
+}
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('open');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '';
+  document.getElementById('searchEmpty').style.display = 'none';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearch(); });
+
+function runSearch(q) {
+  const res = document.getElementById('searchResults');
+  const empty = document.getElementById('searchEmpty');
+  if (!q.trim()) { res.innerHTML = ''; empty.style.display = 'none'; return; }
+  const hits = searchIndex.filter(i => i.text.toLowerCase().includes(q.toLowerCase()) || i.cat.toLowerCase().includes(q.toLowerCase()));
+  if (!hits.length) { res.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  res.innerHTML = hits.slice(0, 6).map(h =>
+    `<a class="search-result-item" href="${h.href}" onclick="closeSearch()">
+      <span class="sri-icon">${h.icon}</span>
+      <div><div class="sri-text">${h.text}</div><div class="sri-cat">${h.cat}</div></div>
+    </a>`
+  ).join('');
+}
+
+// ── CALENDLY ──
+function openCalendly() {
+  // Try Calendly popup first
+  if (window.Calendly) {
+    Calendly.initPopupWidget({ url: 'https://calendly.com/wdconsulting/consultation?hide_gdpr_banner=1&primary_color=c8973a' });
+    return;
+  }
+  // Fallback: scroll to contact section and show Calendly tab
+  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  switchTab('calendly');
+}
+
+// ── TABS ──
+function switchTab(tab) {
+  ['calendly','form'].forEach(t => {
+    document.getElementById('panel' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+    document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+  });
+  // lazy-init Calendly inline
+  if (tab === 'calendly' && window.Calendly) {
+    Calendly.initInlineWidget({ url: 'https://calendly.com/wdconsulting/free-procurement-assessment?hide_gdpr_banner=1&primary_color=c8973a', parentElement: document.querySelector('.calendly-inline-widget') });
+  }
+}
+function switchToForm() { switchTab('form'); }
+
+// ── TIPS ──
+function toggleTip(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.tip-card.open').forEach(c => { c.classList.remove('open'); c.querySelector('.tip-read-more').textContent = 'Read more ↓'; });
+  if (!isOpen) { card.classList.add('open'); card.querySelector('.tip-read-more').textContent = 'Read less ↑'; }
+}
+function filterTips(cat, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tip-card').forEach(c => { c.style.display = (cat === 'all' || c.dataset.category === cat) ? '' : 'none'; });
+}
+
+// ── FORM ──
+function handleSubmit() {
+  const btn = document.querySelector('.form-submit');
+  btn.textContent = '✓ Sent — we\'ll reply within 24h';
+  btn.style.background = '#18A06A'; btn.style.color = 'white'; btn.disabled = true;
+}
+
+// ── INIT CALENDLY INLINE on load ──
+window.addEventListener('load', () => {
+  if (window.Calendly) {
+    Calendly.initInlineWidget({
+      url: 'https://calendly.com/wdconsulting/consultation?hide_gdpr_banner=1&primary_color=c8973a',
+      parentElement: document.querySelector('.calendly-inline-widget')
+    });
+  }
+});
+</script>
+</body>
+</html>
